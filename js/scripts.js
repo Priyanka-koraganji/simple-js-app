@@ -23,28 +23,43 @@ let pokemonList = [{
     abilities: ['Shield-dust', 'Run-away']
   }
 ];
-
-for (let i = 0; i < pokemonList.length; i++) {
-  // create li element
+pokemonList.forEach(pokemon => {
   let list = document.createElement("li");
+    // declare the variables
+    let eachPokemon;
+    let pokemonName = pokemon.name;
+    let pokemonHeight = pokemon.height;
+    let message = 'Wow, thats Big!';
+    // conditional statement
+    if (pokemonHeight > 1) {
+      eachPokemon = document.createTextNode(pokemonName + ' (height:' + pokemonHeight + ')' + ' -' + message);
+    } else {
+      eachPokemon = document.createTextNode(pokemonName + ' (height:' + pokemonHeight + ')');
+    }
+    // append text to li ele
+    list.appendChild(eachPokemon);
+    let element = document.getElementById("names");
+    //append li ele to ul element
+    element.appendChild(list);
+})
 
-  // declare the variables
-  let pokemon;
-  let pokemonName = pokemonList[i].name;
-  let pokemonHeight = pokemonList[i].height;
-  let message = 'Wow, thats Big!';
-
-  // conditional statement
-  if (pokemonList[i].height > 1) {
-    pokemon = document.createTextNode(pokemonName + ' (height:' + pokemonHeight + ')' + ' -' + message);
-  } else {
-    pokemon = document.createTextNode(pokemonName + ' (height:' + pokemonHeight + ')');
-  }
-
-  // append text to li ele
-  list.appendChild(pokemon);
-  let element = document.getElementById("new");
-
-  //append li ele to ul element
-  element.appendChild(list);
-}
+// for (let i = 0; i < pokemonList.length; i++) {
+//   // create li element
+//   let list = document.createElement("li");
+//   // declare the variables
+//   let pokemon;
+//   let pokemonName = pokemonList[i].name;
+//   let pokemonHeight = pokemonList[i].height;
+//   let message = 'Wow, thats Big!';
+//   // conditional statement
+//   if (pokemonList[i].height > 1) {
+//     pokemon = document.createTextNode(pokemonName + ' (height:' + pokemonHeight + ')' + ' -' + message);
+//   } else {
+//     pokemon = document.createTextNode(pokemonName + ' (height:' + pokemonHeight + ')');
+//   }
+//   // append text to li ele
+//   list.appendChild(pokemon);
+//   let element = document.getElementById("new");
+//   //append li ele to ul element
+//   element.appendChild(list);
+// }
