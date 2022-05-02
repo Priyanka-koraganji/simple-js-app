@@ -106,6 +106,24 @@ newList.forEach(pokemon => {
   element.appendChild(list);
 })
 
+//adding pokemon to newList
+let newPokemon ={
+  name:'Pidgeot',
+  height:1.5,
+  types: ['flying', 'normal'],
+  abilities: ['Keen-eye', 'Tangled-feet', 'Big-pecks']
+}
+let features = Object.keys(newList[1]);
+let newPokemonFeatures = Object.keys(newPokemon);
+if(typeof(newPokemon) == typeof(newList[1]) && (JSON.stringify(features) === JSON.stringify(newPokemonFeatures))){
+  pokemonRepository.add(newPokemon);
+  console.log(pokemonRepository.getAll());
+}else{
+  console.log("try again");
+}
+
+////////////////* filter function *///////////////
+
 /////////////////////////////* Task 1.4 *///////////////////////////////
 
 // for (let i = 0; i < pokemonList.length; i++) {
