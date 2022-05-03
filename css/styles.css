@@ -1,13 +1,29 @@
-*{
+* {
   box-sizing: border-box;
 }
-body{
-  margin:0;
+
+body {
+  margin: 0;
   background-color: #ccffff;
 }
-.pokemon-list{
-  padding:20px;
+
+h2 {
+  padding: 20px;
+  margin: 0;
 }
-.pokemon-list li{
-  padding:10px 0;
+
+.pokemon-list {
+  padding: 20px;
+}
+
+.pokemon-list li {
+  padding: 10px 0;
+  list-style-type: none;
+}
+
+.button-style {
+  padding: 10px;
+  background-color: #1a75ff;
+  color: white;
+  font-weight: bold;
 }
