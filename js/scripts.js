@@ -1,32 +1,21 @@
-/////////////// Task 1.6 ///////////////
+/////////////// Task 1.7 ///////////////
 
 let pokemonRepository = (function() {
-  let pokemonList = [{
-      name: 'Bulbasaur',
-      height: 0.7,
-      types: ['grass', 'poison'],
-      abilities: ['Chlorophyll', 'Overgrow']
-    },
-    {
-      name: 'Charmander',
-      height: 0.6,
-      types: ['fire'],
-      abilities: ['Blaze', 'Solar-power']
-    },
-    {
-      name: 'Wartortle',
-      height: 1.5,
-      types: ['water'],
-      abilities: ['Rain-dish', 'Torrent']
-    },
-    {
-      name: 'Weedle',
-      height: 0.3,
-      types: ['bug', 'poison'],
-      abilities: ['Shield-dust', 'Run-away']
-    }
-  ];
+  let pokemonList = [];
+  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+  //creating element p to show loading mesg
+  let message = document.createElement('p');
+  message.innerText = "Data Loading";
+  let list = document.querySelector('.pokemon-list');
+  list.appendChild(message);
 
+  function showLoadingMessage() {
+    message.classList.add('message-show');
+  }
+
+  function hideLoadingMessage() {
+    message.classList.add('message-hide');
+  }
   function getAll() {
     return pokemonList;
   }
@@ -54,19 +43,135 @@ let pokemonRepository = (function() {
   }
 
   function showDetails(pokemon) {
-    console.log(pokemon.name);
+    loadDetails(pokemon).then(function() {
+      console.log(pokemon);
+    });
   }
+
+  function loadList() {
+    showLoadingMessage()
+    return fetch(apiUrl).then(function(response) {
+      hideLoadingMessage()
+      return response.json();
+    }).then(function(json) {
+      json.results.forEach(function(item) {
+        let pokemon = {
+          name: item.name,
+          detailsUrl: item.url
+        };
+        add(pokemon);
+      });
+    }).catch(function(e) {
+      hideLoadingMessage()
+      console.error(e);
+    })
+  }
+
+  function loadDetails(item) {
+    showLoadingMessage()
+    let url = item.detailsUrl;
+    return fetch(url).then(function(response) {
+      return response.json();
+    }).then(function(details) {
+      hideLoadingMessage()
+      // Now we add the details to the item
+      item.imageUrl = details.sprites.front_default;
+      item.height = details.height;
+      item.types = details.types;
+    }).catch(function(e) {
+      hideLoadingMessage()
+      console.error(e);
+    });
+  }
+
   return {
     getAll: getAll,
     add: add,
     addListItem: addListItem,
-    showDetails: showDetails
+    showDetails: showDetails,
+    loadList: loadList,
+    loadDetails: loadDetails
   }
 })();
+pokemonRepository.loadList().then(function() {
+  pokemonRepository.getAll().forEach(function(pokemon) {
+    pokemonRepository.addListItem(pokemon);
+  });
+});
 
-pokemonRepository.getAll().forEach((pokemon) => {
-  pokemonRepository.addListItem(pokemon);
-})
+
+
+
+///////////////////////////////task 1.6///////////////////
+
+// let pokemonRepository = (function() {
+//   let pokemonList = [{
+//       name: 'Bulbasaur',
+//       height: 0.7,
+//       types: ['grass', 'poison'],
+//       abilities: ['Chlorophyll', 'Overgrow']
+//     },
+//     {
+//       name: 'Charmander',
+//       height: 0.6,
+//       types: ['fire'],
+//       abilities: ['Blaze', 'Solar-power']
+//     },
+//     {
+//       name: 'Wartortle',
+//       height: 1.5,
+//       types: ['water'],
+//       abilities: ['Rain-dish', 'Torrent']
+//     },
+//     {
+//       name: 'Weedle',
+//       height: 0.3,
+//       types: ['bug', 'poison'],
+//       abilities: ['Shield-dust', 'Run-away']
+//     }
+//   ];
+// let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+//   function getAll() {
+//     return pokemonList;
+//   }
+//
+//   function add(item) {
+//     return pokemonList.push(item);
+//   }
+//
+//   function addListItem(pokemon) {
+//     let list = document.querySelector('.pokemon-list');
+//     let listItem = document.createElement('li');
+//     let button = document.createElement('button');
+//     button.innerText = pokemon.name;
+//     // added event listener
+//     button.addEventListener('click', () => {
+//       showDetails(pokemon);
+//     });
+//     list.appendChild(listItem);
+//     listItem.appendChild(button);
+//     // stylings for each button created
+//     let allButtons = document.querySelectorAll('button');
+//     allButtons.forEach(item => {
+//       item.classList.add('button-style');
+//     })
+//   }
+//
+//   function showDetails(pokemon) {
+//     console.log(pokemon.name);
+//   }
+
+//   return {
+//     getAll: getAll,
+//     add: add,
+//     addListItem: addListItem,
+//     showDetails: showDetails,
+//   }
+// })();
+//
+// pokemonRepository.getAll().forEach((pokemon) => {
+//   pokemonRepository.addListItem(pokemon);
+// })
 
 
 //////////////////////////* Task 1.5 part-1 */////////////////////////
