@@ -33,3 +33,46 @@ h2 {
 .message-hide{
   display:none;
 }
+
+/* modal stylings */
+#modal-container {
+  position: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  overflow: auto;
+  display: grid;
+  text-align: center;
+}
+.is-visible{
+  display: block;
+}
+.modal-close {
+  float: right;
+  -webkit-appearance: none;
+  /* border: 0; */
+  background: none;
+  color: #777;
+  /* text-decoration: underline; */
+}
+.remove-modal{
+  display: none;
+}
+.modal {
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 15px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+.pokemon-image{
+  width:30%;
+}
