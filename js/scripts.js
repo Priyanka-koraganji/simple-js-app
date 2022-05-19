@@ -28,10 +28,10 @@ let pokemonRepository = (function() {
   function addListItem(pokemon) {
     let list = document.querySelector('.pokemon-list');
     let listItem = document.createElement('li');
-    listItem.classList.add('list-item');
+    listItem.classList.add('list-item', 'group-list-item');
     let button = document.createElement('button');
     button.innerText = pokemon.name;
-    button.classList.add('list-button');
+    button.classList.add('list-button','btn','btn-primary');
     // added event listener
     button.addEventListener('click', () => {
       showDetails(pokemon);
@@ -39,10 +39,10 @@ let pokemonRepository = (function() {
     list.appendChild(listItem);
     listItem.appendChild(button);
     // stylings for each button created
-    let allButtons = document.querySelectorAll('button');
-    allButtons.forEach(item => {
-      item.classList.add('button-style');
-    })
+    // let allButtons = document.querySelectorAll('button');
+    // allButtons.forEach(item => {
+    //   item.classList.add('button-style');
+    // })
   }
 
   function showDetails(pokemon) {
@@ -52,9 +52,7 @@ let pokemonRepository = (function() {
       let height = pokemon.height;
       let img = pokemon.imageUrl;
       let listItem = document.querySelector('.list-item');
-      let modalContainer = document.createElement('div');
-      modalContainer.classList.add('modal-container');
-      listItem.appendChild(modalContainer);
+      let modalContainer = document.querySelector('.modal-container');
       showModal(name, height, img);
 
       // creating modal
@@ -91,7 +89,7 @@ let pokemonRepository = (function() {
       }
 
       function hideModal() {
-        modalContainer.classList.add('remove-modal');
+        modalContainer.classList.remove('is-visible');
       }
 
       window.addEventListener('keydown', (e) => {
@@ -107,7 +105,6 @@ let pokemonRepository = (function() {
       });
     });
   }
-
   function loadList() {
     showLoadingMessage()
     return fetch(apiUrl).then(function(response) {
@@ -158,7 +155,6 @@ pokemonRepository.loadList().then(function() {
     pokemonRepository.addListItem(pokemon);
   });
 });
-
 
 
 
