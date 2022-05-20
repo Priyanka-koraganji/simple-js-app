@@ -1,11 +1,12 @@
 /////////////// Task 1.7 ///////////////
-
 let pokemonRepository = (function() {
   let pokemonList = [];
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
   //creating element p to show loading mesg
   let message = document.createElement('img');
   message.src = 'img/loading.jpeg';
+  message.setAttribute('width','80px');
+  message.setAttribute('height','80px');
   let list = document.querySelector('.pokemon-list');
   list.appendChild(message);
 
@@ -27,63 +28,76 @@ let pokemonRepository = (function() {
 
   function addListItem(pokemon) {
     let list = document.querySelector('.pokemon-list');
-    let listItem = document.createElement('li');
-    listItem.classList.add('list-item', 'group-list-item');
-    let button = document.createElement('button');
+    let listItem = document.createElement('li');//creating li ele
+    listItem.classList.add('list-item', 'list-group-item', 'col');
+    let button = document.createElement('button');//creating button ele
     button.innerText = pokemon.name;
-    button.classList.add('list-button','btn','btn-primary');
+    button.classList.add('list-button', 'btn', 'btn-success', 'list-group-item-action');
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', '#exampleModalCenter');
     // added event listener
     button.addEventListener('click', () => {
       showDetails(pokemon);
     });
-    list.appendChild(listItem);
-    listItem.appendChild(button);
-    // stylings for each button created
-    // let allButtons = document.querySelectorAll('button');
-    // allButtons.forEach(item => {
-    //   item.classList.add('button-style');
-    // })
+    list.appendChild(listItem);//appending li
+    listItem.appendChild(button);//appending button to li
   }
 
   function showDetails(pokemon) {
     loadDetails(pokemon).then(() => {
-      // creating modal container for each pokemon
       let name = pokemon.name;
       let height = pokemon.height;
       let img = pokemon.imageUrl;
       let listItem = document.querySelector('.list-item');
       let modalContainer = document.querySelector('.modal-container');
-      showModal(name, height, img);
+      showModal(name, height, img);// calling modal func
 
       // creating modal
-      function showModal(name, text) {
+      function showModal(name, height, img) {
         modalContainer.innerHTML = '';
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
-
+        //modal-dialog
+        let modalDialog = document.createElement('div');
+        modalDialog.classList.add('modal-dialog', 'modal-dialog-centered');
+        modalDialog.setAttribute('role', 'document');
+        //modal-content
+        let modalContent = document.createElement('div');
+        modalContent.classList.add('modal-content', 'modal');
+        //modal-header
+        let modalHeader = document.createElement('div');
+        modalHeader.classList.add('modal-header');
+        //header-title
+        let modalTitle = document.createElement('h5');
+        modalTitle.innerText = name;
+        modalTitle.classList.add('modal-title');
+        modalTitle.setAttribute('id', 'exampleModalCenterTitle');
+        modalHeader.appendChild(modalTitle);
+        //header-button
         let closeButtonElement = document.createElement('button');
-        closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'Close';
+        closeButtonElement.classList.add('close');
+        closeButtonElement.innerText = 'close';
+        closeButtonElement.setAttribute('data-dismiss', 'modal');
+        closeButtonElement.setAttribute('aria-label', 'close');
         closeButtonElement.addEventListener('click', () => {
           hideModal()
         });
-
-        let titleElement = document.createElement('h1');
-        titleElement.innerText = name;
+        modalHeader.appendChild(closeButtonElement);
+        //modal-body
+        let modalBody = document.createElement('div');
+        modalBody.classList.add('modal-body');
 
         let contentElement = document.createElement('p');
         contentElement.innerText = "Height : " + height;
+        modalBody.appendChild(contentElement);
 
         let imageElement = document.createElement('img');
         imageElement.src = img;
         imageElement.classList.add('pokemon-image');
+        modalBody.appendChild(imageElement);
 
-        modal.appendChild(closeButtonElement);
-        modal.appendChild(titleElement);
-        modal.appendChild(contentElement);
-        modal.appendChild(imageElement);
-        modalContainer.appendChild(modal);
-
+        modalContent.appendChild(modalHeader);
+        modalContent.appendChild(modalBody);
+        modalDialog.appendChild(modalContent);
+        modalContainer.appendChild(modalDialog);
 
         modalContainer.classList.add('is-visible');
       }
@@ -105,6 +119,7 @@ let pokemonRepository = (function() {
       });
     });
   }
+
   function loadList() {
     showLoadingMessage()
     return fetch(apiUrl).then(function(response) {
