@@ -48,7 +48,6 @@ let pokemonRepository = (function() {
       let name = pokemon.name;
       let height = pokemon.height;
       let img = pokemon.imageUrl;
-      let listItem = document.querySelector('.list-item');
       let modalContainer = document.querySelector('.modal-container');
       showModal(name, height, img);// calling modal func
 
@@ -86,7 +85,7 @@ let pokemonRepository = (function() {
         modalBody.classList.add('modal-body');
 
         let contentElement = document.createElement('p');
-        contentElement.innerText = "Height : " + height;
+        contentElement.innerText = 'Height : ' + height;
         modalBody.appendChild(contentElement);
 
         let imageElement = document.createElement('img');
@@ -135,7 +134,9 @@ let pokemonRepository = (function() {
       });
     }).catch(function(e) {
       hideLoadingMessage()
-      console.error(e);
+      /* eslint-disable no-console */
+      console.error('Error when validating item', e);
+      /* eslint-enable no-console */
     })
   }
 
@@ -152,7 +153,9 @@ let pokemonRepository = (function() {
       item.types = details.types;
     }).catch(function(e) {
       hideLoadingMessage()
-      console.error(e);
+      /* eslint-disable no-console */
+      console.error('Error when validating item ', e);
+      /* eslint-enable no-console */
     });
   }
 
