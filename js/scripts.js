@@ -1,5 +1,5 @@
-/////////////// Task 1.7 ///////////////
-let pokemonRepository = (function () {
+/////////////// Task 1.10 ///////////////
+let pokemonRepository = (function() {
   let pokemonList = [];
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
   //creating element p to show loading mesg
@@ -110,7 +110,7 @@ let pokemonRepository = (function () {
         modalContainer.classList.remove('is-visible');
       }
 
-      window.addEventListener('keydown', (e) => {
+      window.addEventListener('keydown', e => {
         if (
           e.key === 'Escape' &&
           modalContainer.classList.contains('is-visible')
@@ -118,7 +118,7 @@ let pokemonRepository = (function () {
           hideModal();
         }
       });
-      modalContainer.addEventListener('click', (e) => {
+      modalContainer.addEventListener('click', e => {
         let target = e.target;
         if (target === modalContainer) {
           hideModal();
@@ -130,20 +130,20 @@ let pokemonRepository = (function () {
   function loadList() {
     showLoadingMessage();
     return fetch(apiUrl)
-      .then(function (response) {
+      .then(function(response) {
         hideLoadingMessage();
         return response.json();
       })
-      .then(function (json) {
-        json.results.forEach(function (item) {
+      .then(function(json) {
+        json.results.forEach(function(item) {
           let pokemon = {
             name: item.name,
-            detailsUrl: item.url,
+            detailsUrl: item.url
           };
           add(pokemon);
         });
       })
-      .catch(function (e) {
+      .catch(function(e) {
         hideLoadingMessage();
         /* eslint-disable no-console */
         console.error('Error when validating item', e);
@@ -155,17 +155,17 @@ let pokemonRepository = (function () {
     showLoadingMessage();
     let url = item.detailsUrl;
     return fetch(url)
-      .then(function (response) {
+      .then(function(response) {
         return response.json();
       })
-      .then(function (details) {
+      .then(function(details) {
         hideLoadingMessage();
         // Now we add the details to the item
         item.imageUrl = details.sprites.front_default;
         item.height = details.height;
         item.types = details.types;
       })
-      .catch(function (e) {
+      .catch(function(e) {
         hideLoadingMessage();
         /* eslint-disable no-console */
         console.error('Error when validating item ', e);
@@ -179,11 +179,11 @@ let pokemonRepository = (function () {
     addListItem: addListItem,
     showDetails: showDetails,
     loadList: loadList,
-    loadDetails: loadDetails,
+    loadDetails: loadDetails
   };
 })();
-pokemonRepository.loadList().then(function () {
-  pokemonRepository.getAll().forEach(function (pokemon) {
+pokemonRepository.loadList().then(function() {
+  pokemonRepository.getAll().forEach(function(pokemon) {
     pokemonRepository.addListItem(pokemon);
   });
 });
