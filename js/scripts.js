@@ -35,7 +35,7 @@ let pokemonRepository = (function() {
     button.classList.add(
       'list-button',
       'btn',
-      'btn-success',
+      'btn-warning',
       'list-group-item-action'
     );
     button.setAttribute('data-toggle', 'modal');
