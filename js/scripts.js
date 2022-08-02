@@ -2,20 +2,20 @@
 let pokemonRepository = (function() {
   let pokemonList = [];
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-  //creating element p to show loading mesg
-  let message = document.createElement('img');
-  message.src = 'img/loading.jpeg';
-  message.setAttribute('width', '80px');
-  message.setAttribute('height', '80px');
+  //creating element p to show loading img
+  let image = document.createElement('img');
+  image.src = 'img/loading.jpeg';
+  image.setAttribute('width', '80px');
+  image.setAttribute('height', '80px');
   let list = document.querySelector('.pokemon-list');
-  list.appendChild(message);
+  list.appendChild(image);
 
   function showLoadingMessage() {
-    message.classList.add('message-show');
+    image.classList.add('message-show');
   }
 
   function hideLoadingMessage() {
-    message.classList.add('message-hide');
+    image.classList.add('message-hide');
   }
 
   function getAll() {
@@ -53,11 +53,12 @@ let pokemonRepository = (function() {
       let name = pokemon.name;
       let height = pokemon.height;
       let img = pokemon.imageUrl;
+      let types = pokemon.types;
       let modalContainer = document.querySelector('.modal-container');
-      showModal(name, height, img); // calling modal func
+      showModal(name, height, img, types); // calling modal func
 
       // creating modal
-      function showModal(name, height, img) {
+      function showModal(name, height, img, types) {
         modalContainer.innerHTML = '';
         //modal-dialog
         let modalDialog = document.createElement('div');
@@ -85,6 +86,7 @@ let pokemonRepository = (function() {
           hideModal();
         });
         modalHeader.appendChild(closeButtonElement);
+
         //modal-body
         let modalBody = document.createElement('div');
         modalBody.classList.add('modal-body');
@@ -92,6 +94,11 @@ let pokemonRepository = (function() {
         let contentElement = document.createElement('p');
         contentElement.innerText = 'Height : ' + height;
         modalBody.appendChild(contentElement);
+
+        let contentElementTypes = document.createElement('p');
+        contentElementTypes.innerText =
+          'Types: ' + types[0].type.name + ', ' + types[1].type.name;
+        modalBody.appendChild(contentElementTypes);
 
         let imageElement = document.createElement('img');
         imageElement.src = img;
